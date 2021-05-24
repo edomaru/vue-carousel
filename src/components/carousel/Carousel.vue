@@ -2,6 +2,7 @@
   <div class="carousel">
     <div class="carousel-inner">
       <carousel-indicators
+        v-if="indicators"
         :total="slides.length"
         :current-index="currentSlide"
         @switch="switchSlide($event)"
@@ -16,7 +17,11 @@
         @mouseenter="stopSlideTimer"
         @mouseout="startSlideTimer"
       ></carousel-item>
-      <carousel-controls @prev="prev" @next="next"></carousel-controls>
+      <carousel-controls
+        v-if="controls"
+        @prev="prev"
+        @next="next"
+      ></carousel-controls>
     </div>
   </div>
 </template>
@@ -27,7 +32,24 @@ import CarouselControls from "./CarouselControls.vue";
 import CarouselIndicators from "./CarouselIndicators.vue";
 
 export default {
-  props: ["slides"],
+  props: {
+    slides: {
+      type: Array,
+      required: true,
+    },
+    controls: {
+      type: Boolean,
+      default: false,
+    },
+    indicators: {
+      type: Boolean,
+      default: false,
+    },
+    interval: {
+      type: Number,
+      default: 5000,
+    },
+  },
   components: { CarouselItem, CarouselControls, CarouselIndicators },
   data: () => ({
     currentSlide: 0,
@@ -63,7 +85,7 @@ export default {
       this.stopSlideTimer();
       this.slideInterval = setInterval(() => {
         this._next();
-      }, 5000);
+      }, this.interval);
     },
     stopSlideTimer() {
       clearInterval(this.slideInterval);
