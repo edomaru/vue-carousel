@@ -18,3 +18,16 @@ export default {
   components: { CarouselItem },
 };
 </script>
+
+<style scoped>
+.carousel {
+  display: flex;
+  justify-content: center;
+}
+.carousel-inner {
+  position: relative;
+  width: 900px;
+  height: 400px;
+  overflow: hidden;
+}
+</style>
